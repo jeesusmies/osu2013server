@@ -2,6 +2,7 @@
 using System.Dynamic;
 using System.Net;
 using System.Threading.Tasks;
+using osu2013server.Enums;
 
 namespace osu2013server
 {
@@ -30,7 +31,7 @@ namespace osu2013server
                     return;
                 }
                 
-                Extension.Log();
+                Extension.Log(this, "Server now running.", LogStatus.Info);
             });
         }
     }
