@@ -8,7 +8,7 @@ namespace osu2013server
 {
     public class Listener
     {
-        private string Prefix { get; set; }
+        public string Prefix { get; set; }
         private static HttpListener HttpListener { get; set; }
 
         public Listener()
