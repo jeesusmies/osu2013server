@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using System.Net;
 using System.Threading.Tasks;
 using osu2013server.Enums;
@@ -8,18 +7,17 @@ namespace osu2013server
 {
     public class Listener
     {
-        public string Prefix { get; set; }
         private static HttpListener HttpListener { get; set; }
 
-        public Listener()
+        public Listener(string prefix)
         {
             HttpListener = new();
-            HttpListener.Prefixes.Add(Prefix);
+            HttpListener.Prefixes.Add(prefix);
         }
 
-        public void Run()
+        public async Task Run()
         {
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 try
                 {
@@ -27,10 +25,15 @@ namespace osu2013server
                 }
                 catch (HttpListenerException hlex) when (hlex.ErrorCode == 32 || hlex.ErrorCode == 183)
                 {
-                    Console.Error.WriteLine("The desired port for the Bancho is in use.");
+                    Extension.Log(this, "Port is already being used.", LogStatus.Error);
                     return;
                 }
-                
+                catch (Exception e)
+                {
+                    Extension.Log(this, e.ToString(), LogStatus.Error);
+                    return;
+                }
+
                 Extension.Log(this, "Server now running.", LogStatus.Info);
             });
         }
