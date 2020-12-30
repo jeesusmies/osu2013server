@@ -1,6 +1,6 @@
 ﻿namespace osu2013server.Enums
 {
-    public enum HttpRequestType
+    public enum RequestMethod
     {
         GET, 
         HEAD, 

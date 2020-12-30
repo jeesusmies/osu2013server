@@ -1,16 +1,18 @@
 ﻿using osu2013server.Enums;
+using osu2013server.Objects;
 
 namespace osu2013server.Attributes
 {
     public class Handler : System.Attribute
     {
-        public string location;
-        public HttpRequestType requestType;
+        public RequestInfo RequestInfo;
 
-        public Handler(string _location, HttpRequestType _requestType)
+        public Handler(string _route, RequestMethod _requestMethod)
         {
-            location = _location;
-            requestType = _requestType;
+            RequestInfo = new RequestInfo() {
+                Route = _route,
+                RequestMethod = _requestMethod
+            };
         }
     }
 }

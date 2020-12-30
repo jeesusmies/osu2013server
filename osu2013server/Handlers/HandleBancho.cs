@@ -3,7 +3,7 @@ using System.Net;
 using osu2013server.Attributes;
 using osu2013server.Interfaces;
 
-using static osu2013server.Enums.HttpRequestType;
+using static osu2013server.Enums.RequestMethod;
 
 namespace osu2013server.Handlers
 {
@@ -11,7 +11,7 @@ namespace osu2013server.Handlers
     [Handler("/", POST)]
     public class HandleBancho : IHttpHandler
     {
-        public static void Handle(HttpListenerContext context)
+        public void Handle(HttpListenerContext context)
         {
             if (context.Request.Headers["User-Agent"] == null)
                 return;

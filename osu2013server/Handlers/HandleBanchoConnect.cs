@@ -3,7 +3,7 @@ using System.Net;
 using osu2013server.Attributes;
 using osu2013server.Interfaces;
 
-using static osu2013server.Enums.HttpRequestType;
+using static osu2013server.Enums.RequestMethod;
 
 namespace osu2013server.Handlers
 {
