@@ -3,7 +3,7 @@
     public enum RequestMethod
     {
         GET, 
-        HEAD, 
+        HEAD,
         POST, 
         PUT, 
         DELETE, 

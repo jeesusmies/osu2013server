@@ -52,7 +52,7 @@ namespace osu2013server
             while (true)
             { 
                 var ctx = await HttpListener.GetContextAsync();
-                Task.Factory.StartNew(async () => { await ProcessContextAsync(ctx); });
+                await ProcessContextAsync(ctx).ConfigureAwait(false);
                 
             }
         }
