@@ -2,10 +2,14 @@
 {
     public enum HttpRequestType
     {
-        GET,
-        POST,
-        //not sure if exists?
-        DELETE,
-        MODIFY
+        GET, 
+        HEAD, 
+        POST, 
+        PUT, 
+        DELETE, 
+        CONNECT, 
+        OPTIONS,
+        TRACE, 
+        PATCH
     }
 }
