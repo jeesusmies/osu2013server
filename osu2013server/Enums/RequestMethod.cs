@@ -1,5 +1,8 @@
-﻿namespace osu2013server.Enums
+﻿using System;
+
+namespace osu2013server.Enums
 {
+    [Flags]
     public enum RequestMethod
     {
         GET, 
@@ -10,6 +13,7 @@
         CONNECT, 
         OPTIONS,
         TRACE, 
-        PATCH
+        PATCH,
+        
     }
 }

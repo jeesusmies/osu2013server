@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
 using osu2013server.Attributes;
 using osu2013server.Enums;
@@ -16,13 +14,13 @@ namespace osu2013server
     public class Listener
     {
         private static HttpListener HttpListener { get; set; }
-        private static Dictionary<RequestInfo, IHttpHandler> _handlers = new();
+        internal static Dictionary<string, IHttpHandler> _handlers = new();
 
         public Listener(string prefix)
         {
             HttpListener = new();
             HttpListener.Prefixes.Add(prefix);
-            AddListeningRoutes();
+            Extension.AddListeningRoutes();
         }
 
         public async Task Run()
@@ -63,7 +61,7 @@ namespace osu2013server
             stopwatch.Start();
 
             var request = ctx.Request;
-            
+
             /*
             Console.WriteLine("URL: {0}", request.Url.OriginalString);
             Console.WriteLine("Raw URL: {0}", request.RawUrl);
@@ -79,37 +77,21 @@ namespace osu2013server
             Console.WriteLine("Host address: {0}", request.UserHostAddress);
             Console.WriteLine("User agent: {0}", request.UserAgent);
             */
-
+            
             try
             {
-                await _handlers[new RequestInfo
-                {
-                    Route = request.RawUrl,
-                    RequestMethod = request.HttpMethod.ToEnum<RequestMethod>()
-                }].HandleAsync(ctx);
+                await _handlers[request.ToID()].HandleAsync(ctx);
             }
             catch
             {
+                ctx.Response.Redirect("404");
                 Extension.Log(this, $@"{request.UserHostName} Requested to non-existant route [{request.RawUrl} {request.HttpMethod}]", LogStatus.Warning);
                 return;
             }
 
             stopwatch.Stop();
+            
             Extension.Log(this, $@"Request to [{request.RawUrl}] took {stopwatch.Elapsed.Milliseconds}ms", LogStatus.Info);
-        }
-
-        private void AddListeningRoutes()
-        {
-            Assembly info = Assembly.GetExecutingAssembly();
-
-            foreach(var type in info.GetTypes())
-            {
-                if (Attribute.IsDefined(type, typeof(Handler)))
-                {
-                    var att = (Handler) Attribute.GetCustomAttribute(type, typeof(Handler));
-                    _handlers.Add(att.RequestInfo, (IHttpHandler)Activator.CreateInstance(type));
-                }
-            }
         }
     }
 }
