@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using osu2013server.Attributes;
 using osu2013server.Enums;
 using osu2013server.Interfaces;
@@ -10,6 +12,18 @@ namespace osu2013server
 {
     public static class Extension
     {
+        public static string LimitedReadLine(this Stream stream, uint limit)
+        {
+            var sb = new StringBuilder();
+
+            int c;
+            while (limit-- > 0 && (c = stream.ReadByte()) != '\n') { 
+                sb.Append((char)c);
+            }
+
+            return sb.ToString();
+        }
+        
         public static void Log(dynamic obj, string message, LogStatus status)
         {
             Console.ForegroundColor = status switch
