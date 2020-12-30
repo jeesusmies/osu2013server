@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using osu2013server.Attributes;
 using osu2013server.Interfaces;
 
@@ -6,13 +7,9 @@ using static osu2013server.Enums.HttpRequestType;
 
 namespace osu2013server.Handlers
 {
-    // Post requests in / go here.
-    [Handler("/", POST)]
-    public class HandleBancho : IHttpHandler
+    [Handler("/web/bancho-connect.php", POST)]
+    public class HandleBanchoConnect : IHttpHandler
     {
-        private HttpListenerResponse Response;
-        private HttpListenerRequest Request;
-        
         private void Handle()
         {
             throw new System.NotImplementedException();
@@ -20,7 +17,7 @@ namespace osu2013server.Handlers
 
         public void Process(HttpListenerContext context)
         {
-            
+            throw new System.NotImplementedException();
         }
     }
 }
