@@ -79,11 +79,23 @@ namespace osu2013server
             Console.WriteLine("Host address: {0}", request.UserHostAddress);
             Console.WriteLine("User agent: {0}", request.UserAgent);
             */
-            
-            
-            
+
+            try
+            {
+                await _handlers[new RequestInfo
+                {
+                    Route = request.RawUrl,
+                    RequestMethod = request.HttpMethod.ToEnum<RequestMethod>()
+                }].HandleAsync(ctx);
+            }
+            catch
+            {
+                Extension.Log(this, $@"{request.UserHostName} Requested to non-existant route [{request.RawUrl} {request.HttpMethod}]", LogStatus.Warning);
+                return;
+            }
+
             stopwatch.Stop();
-            Extension.Log(this, $@"Request to [{request.RawUrl}] took {stopwatch.Elapsed.Milliseconds}ms", LogStatus.Warning);
+            Extension.Log(this, $@"Request to [{request.RawUrl}] took {stopwatch.Elapsed.Milliseconds}ms", LogStatus.Info);
         }
 
         private void AddListeningRoutes()
