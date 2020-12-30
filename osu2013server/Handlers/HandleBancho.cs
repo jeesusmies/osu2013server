@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using osu2013server.Attributes;
 using osu2013server.Interfaces;
 
@@ -11,7 +12,7 @@ namespace osu2013server.Handlers
     [Handler("/", POST)]
     public class HandleBancho : IHttpHandler
     {
-        public void Handle(HttpListenerContext context)
+        public async Task HandleAsync(HttpListenerContext context)
         {
             if (context.Request.Headers["User-Agent"] == null)
                 return;

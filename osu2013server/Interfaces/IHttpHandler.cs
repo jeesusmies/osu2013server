@@ -1,9 +1,10 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 
 namespace osu2013server.Interfaces
 {
     public interface IHttpHandler
     {
-        public void Handle(HttpListenerContext context);
+        public Task HandleAsync(HttpListenerContext context);
     }
 }

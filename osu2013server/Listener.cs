@@ -80,6 +80,8 @@ namespace osu2013server
             Console.WriteLine("User agent: {0}", request.UserAgent);
             */
             
+            
+            
             stopwatch.Stop();
             Extension.Log(this, $@"Request to [{request.RawUrl}] took {stopwatch.Elapsed.Milliseconds}ms", LogStatus.Warning);
         }
