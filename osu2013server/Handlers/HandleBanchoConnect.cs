@@ -10,14 +10,12 @@ namespace osu2013server.Handlers
     [Handler("/web/bancho-connect.php", POST)]
     public class HandleBanchoConnect : IHttpHandler
     {
-        private void Handle()
+        private HttpListenerResponse Response;
+        private HttpListenerRequest Request;
+        
+        public void Handle(HttpListenerContext context)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Process(HttpListenerContext context)
-        {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

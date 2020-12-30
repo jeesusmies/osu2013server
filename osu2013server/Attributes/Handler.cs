@@ -7,10 +7,10 @@ namespace osu2013server.Attributes
         public string location;
         public HttpRequestType requestType;
 
-        public Handler(string location, HttpRequestType requestType)
+        public Handler(string _location, HttpRequestType _requestType)
         {
-            location = this.location;
-            requestType = this.requestType;
+            location = _location;
+            requestType = _requestType;
         }
     }
 }

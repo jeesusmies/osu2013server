@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using osu2013server.Attributes;
 using osu2013server.Enums;
+using osu2013server.Interfaces;
 
 namespace osu2013server
 {
     public class Listener
     {
         private static HttpListener HttpListener { get; set; }
+        private static Dictionary<string, IHttpHandler> _handlers = new();
 
         public Listener(string prefix)
         {
@@ -51,6 +56,19 @@ namespace osu2013server
         public async Task ProcessContextAsync(HttpListenerContext ctx)
         {
             
+        }
+
+        private void AddListeningRoutes()
+        {
+            Assembly info = Assembly.GetExecutingAssembly();
+
+            foreach(Type type in info.GetTypes())
+            {
+                if (Attribute.IsDefined(type, typeof(Handler)))
+                {
+                    var att = (Handler) Attribute.GetCustomAttribute(type, typeof(Handler));
+                }
+            }
         }
     }
 }

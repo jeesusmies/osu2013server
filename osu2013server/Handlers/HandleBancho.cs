@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using osu2013server.Attributes;
 using osu2013server.Interfaces;
 
@@ -10,17 +11,13 @@ namespace osu2013server.Handlers
     [Handler("/", POST)]
     public class HandleBancho : IHttpHandler
     {
-        private HttpListenerResponse Response;
-        private HttpListenerRequest Request;
-        
-        private void Handle()
+        public static void Handle(HttpListenerContext context)
         {
-            throw new System.NotImplementedException();
-        }
+            if (context.Request.Headers["User-Agent"] == null)
+                return;
 
-        public void Process(HttpListenerContext context)
-        {
-            
+            if (context.Request.Headers["osu-token"] == null)
+                context.Response.AddHeader("osu-token", "0000");
         }
     }
 }
