@@ -1,6 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using osu2013server.Attributes;
 using osu2013server.Interfaces;
@@ -9,16 +8,12 @@ using static osu2013server.Enums.RequestMethod;
 
 namespace osu2013server.Handlers
 {
-    [Handler("/web/bancho_connect.php", GET)]
-    public class HandleBanchoConnect : IHttpHandler
+    [Handler("/", GET)]
+    public class HandleMOTD : IHttpHandler
     {
         public async Task HandleAsync(HttpListenerContext context)
         {
-            context.Response.StatusCode = 200;
-
-            var resp = Encoding.UTF8.GetBytes("fi");
-            
-            context.Response.OutputStream.Write(resp);
+            await context.Response.OutputStream.WriteAsync(File.ReadAllBytes(@"../../../MOTD.txt"));
             context.Response.Close();
         }
     }

@@ -12,8 +12,11 @@ namespace osu2013server.Handlers
     {
         public async Task HandleAsync(HttpListenerContext context)
         {
+            context.Response.StatusCode = 404;
+            
             byte[] resp = Encoding.UTF8.GetBytes("fuck u");
             await context.Response.OutputStream.WriteAsync(resp);
+            context.Response.Close();
         }
     }
 }

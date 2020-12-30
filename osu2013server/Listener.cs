@@ -82,10 +82,11 @@ namespace osu2013server
             {
                 await _handlers[request.ToID()].HandleAsync(ctx);
             }
-            catch
+            catch (KeyNotFoundException knfe)
             {
-                ctx.Response.Redirect("404");
-                Extension.Log(this, $@"{request.UserHostName} Requested to non-existant route [{request.RawUrl} {request.HttpMethod}]", LogStatus.Warning);
+                Extension.Log(this, $@"{request.UserHostAddress} Requested to non-existant route [{new Uri(request.Url.OriginalString).AbsolutePath} {request.HttpMethod}]", LogStatus.Warning);
+                ctx.Response.Redirect("/404");
+                ctx.Response.Close();
                 return;
             }
 

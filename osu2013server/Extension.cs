@@ -29,7 +29,7 @@ namespace osu2013server
         
         public static string ToID(this HttpListenerRequest request)
         {
-            return request.RawUrl + ":" + request.HttpMethod;
+            return new Uri(request.Url.OriginalString).AbsolutePath + ":" + request.HttpMethod;
         }
         
         public static void AddListeningRoutes()
