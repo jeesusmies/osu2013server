@@ -62,7 +62,7 @@ namespace osu2013server
 
             var request = ctx.Request;
 
-            /*
+            
             Console.WriteLine("URL: {0}", request.Url.OriginalString);
             Console.WriteLine("Raw URL: {0}", request.RawUrl);
             Console.WriteLine("Query: {0}", request.QueryString);
@@ -76,7 +76,7 @@ namespace osu2013server
             Console.WriteLine("Host name: {0}", request.UserHostName);
             Console.WriteLine("Host address: {0}", request.UserHostAddress);
             Console.WriteLine("User agent: {0}", request.UserAgent);
-            */
+            
             
             try
             {
@@ -84,7 +84,7 @@ namespace osu2013server
             }
             catch (KeyNotFoundException knfe)
             {
-                Extension.Log(this, $@"{request.UserHostAddress} Requested to non-existant route [{new Uri(request.Url.OriginalString).AbsolutePath} {request.HttpMethod}]", LogStatus.Warning);
+                Extension.Log(this, $"{request.UserHostAddress} Requested to non-existant route [{new Uri(request.Url.OriginalString).AbsolutePath} {request.HttpMethod}]", LogStatus.Warning);
                 ctx.Response.Redirect("/404");
                 ctx.Response.Close();
                 return;
@@ -92,7 +92,7 @@ namespace osu2013server
 
             stopwatch.Stop();
             
-            Extension.Log(this, $@"Request to [{request.RawUrl}] took {stopwatch.Elapsed.Milliseconds}ms", LogStatus.Info);
+            Extension.Log(this, $"Request to [{request.RawUrl}] took {stopwatch.Elapsed.Milliseconds}ms", LogStatus.Info);
         }
     }
 }

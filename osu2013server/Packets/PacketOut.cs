@@ -21,7 +21,7 @@ namespace osu2013server.Packets
             {
                 writer.Write(id);
                 writer.Write((byte)0);
-                buffer.Position = 4;
+                writer.Write(0); // buffer.Position = 4;
                 
                 WritePayload(buffer);
 
