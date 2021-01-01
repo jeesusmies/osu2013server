@@ -13,7 +13,7 @@ namespace osu2013server.Packets
 
         protected virtual void WritePayload(Stream buffer) {}
 
-        public virtual byte[] ReturnPacketBytes()
+        public virtual byte[] ToByteArray()
         {
             using var buffer = new MemoryStream();
 

@@ -45,7 +45,15 @@ namespace osu2013server
         {
             return new Uri(request.Url.OriginalString).AbsolutePath + ":" + request.HttpMethod;
         }
-        
+
+        public static void SuccessfulResponse(this HttpListenerResponse response)
+        {
+            response.ContentType = "application/octet-stream";
+            response.StatusCode = 200;
+            response.SendChunked = true;
+            response.KeepAlive = true;
+        }
+
         public static void AddListeningRoutes()
         {
             Assembly info = Assembly.GetExecutingAssembly();

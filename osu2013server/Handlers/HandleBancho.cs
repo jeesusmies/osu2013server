@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,11 +16,15 @@ namespace osu2013server.Handlers
     [Handler("/", POST)]
     public class HandleBancho : IHttpHandler
     {
+        private HttpListenerContext Context { get; set; }
+        
         public async Task HandleAsync(HttpListenerContext context)
         {
             if (context.Request.Headers["User-Agent"] == null)
                 return;
-            
+
+            Context = context;
+
             context.Response.ContentType = "text/html; charset=UTF-8";
             context.Response.StatusCode = 200;
             context.Response.SendChunked = true;
@@ -29,40 +34,8 @@ namespace osu2013server.Handlers
             {
                 context.Response.AddHeader("cho-token", Guid.NewGuid().ToString());
                 context.Response.AddHeader("cho-protocol", "15");
-                
-                var credentials = Task.Run(() =>
-                {
-                    var username = context.Request.InputStream.LimitedReadLine(64);
-                    var password = context.Request.InputStream.LimitedReadLine(64);
-                    var info = context.Request.InputStream.LimitedReadLine(512);
 
-                    return (username, password, info);
-                });
-
-                var player = new Player();
-
-                switch (await player.Authenticate(credentials))
-                {
-                    case LoginStatus.AuthenticationSuccessful:
-                        await context.Response.OutputStream.WriteAsync(new Packets.Out.Login() { Status = 1 }.ReturnPacketBytes());
-                        break;
-                    
-                    case LoginStatus.AuthenticationFailed:
-                        await context.Response.OutputStream.WriteAsync(new Packets.Out.Login() { Status = -1 }.ReturnPacketBytes());
-                        break;
-                    case LoginStatus.TestBuildButNotSupporter:
-                        break;
-                    case LoginStatus.ServerSideError:
-                        break;
-                    case LoginStatus.AccountNotActivated:
-                        break;
-                    case LoginStatus.Banned:
-                        break;
-                    case LoginStatus.TooOldVersion:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                await context.Response.OutputStream.WriteAsync(await Login());
                 
                 context.Response.Close();
                 return;
@@ -76,6 +49,45 @@ namespace osu2013server.Handlers
             var hdsgf = reader.ReadInt32();
             var gfds = reader.ReadBytes(hdsgf);
             */
+        }
+
+        private async Task<byte[]> Login()
+        {
+            var credentials = Task.Run(() =>
+            {
+                var username = Context.Request.InputStream.LimitedReadLine(64);
+                var password = Context.Request.InputStream.LimitedReadLine(64);
+                var info = Context.Request.InputStream.LimitedReadLine(512);
+
+                return (username, password, info);
+            });
+
+            var player = new Player();
+
+            switch (await Player.Authenticate(credentials))
+            {
+                case LoginStatus.AuthenticationSuccessful:
+                    return new Packets.Out.Login() {Status = 1}.ToByteArray();
+                    break;
+
+                case LoginStatus.AuthenticationFailed:
+                    return new Packets.Out.Login() {Status = -1}.ToByteArray();
+                    break;
+                case LoginStatus.TestBuildButNotSupporter:
+                    break;
+                case LoginStatus.ServerSideError:
+                    break;
+                case LoginStatus.AccountNotActivated:
+                    break;
+                case LoginStatus.Banned:
+                    break;
+                case LoginStatus.TooOldVersion:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return new byte[] { };
         }
     }
 }

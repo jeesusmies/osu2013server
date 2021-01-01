@@ -13,7 +13,7 @@ namespace osu2013server.Handlers
     {
         public async Task HandleAsync(HttpListenerContext context)
         {
-            await context.Response.OutputStream.WriteAsync(File.ReadAllBytes(@"../../../MOTD.txt"));
+            await context.Response.OutputStream.WriteAsync(await File.ReadAllBytesAsync(@"../../../MOTD.txt"));
             context.Response.Close();
         }
     }

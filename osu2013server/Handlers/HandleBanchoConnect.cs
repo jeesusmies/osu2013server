@@ -18,7 +18,7 @@ namespace osu2013server.Handlers
 
             var resp = Encoding.UTF8.GetBytes("ca");
             
-            context.Response.OutputStream.Write(resp);
+            await context.Response.OutputStream.WriteAsync(resp);
             context.Response.Close();
         }
     }

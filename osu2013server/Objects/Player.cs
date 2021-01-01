@@ -7,7 +7,7 @@ namespace osu2013server.Objects
 {
     public class Player
     {
-        public async Task<LoginStatus> Authenticate(Task<(string username, string password, string info)> credentials)
+        public static async Task<LoginStatus> Authenticate(Task<(string username, string password, string info)> credentials)
         {
             var (username, password, info) = credentials.Result;
 

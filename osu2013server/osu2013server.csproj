@@ -6,7 +6,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Packets\In" />
+        <Folder Include="Packets\In" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.9" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.9" />
+        <Content Update="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
