@@ -6,7 +6,7 @@ namespace osu2013server.Packets.Out.Channel
     public class ChannelInfo : PacketOut
     {
         public override ushort id => 24;
-        public Channel Channel { get; init; }
+        public Objects.Channel Channel { get; init; }
 
         protected override void WritePayload(Stream buffer)
         {
@@ -14,7 +14,7 @@ namespace osu2013server.Packets.Out.Channel
             
             writer.WriteBString(Channel.Name);
             writer.WriteBString(Channel.Topic);
-            writer.WriteBString(Channel.PlayerCount);
+            writer.Write(Channel.PlayerCount);
         }
     }
 }
