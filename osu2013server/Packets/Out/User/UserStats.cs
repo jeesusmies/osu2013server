@@ -1,4 +1,8 @@
-﻿namespace osu2013server.Packets.Out
+﻿using System.IO;
+using System.Text;
+using osu2013server.Objects;
+
+namespace osu2013server.Packets.Out
 {
     public class UserStats : PacketOut
     {

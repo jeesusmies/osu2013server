@@ -8,11 +8,13 @@ namespace osu2013server.Packets.Out
     {
         public override ushort id => 83;
         
+        // Should maybe make this into an object?
+        // Not sure cuz its not being used anywhere else...
         public int ID { get; init; }
         public string Username { get; init; }
         public string UTC_Offset { get; init; }
         public byte Country { get; init; }
-        public Priviliges Privilige { get; init; }
+        public Priviliges Privilege { get; init; }
         public float Longitude { get; init; }
         public float Latitude { get; init; }
 
@@ -24,7 +26,7 @@ namespace osu2013server.Packets.Out
             writer.Write(Username);
             writer.Write(UTC_Offset);
             writer.Write(Country);
-            writer.Write((byte)Privilige);
+            writer.Write((byte)Privilege);
             writer.Write(Longitude);
             writer.Write(Latitude);
         }
