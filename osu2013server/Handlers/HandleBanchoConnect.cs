@@ -16,7 +16,7 @@ namespace osu2013server.Handlers
         {
             context.Response.StatusCode = 200;
 
-            var resp = Encoding.UTF8.GetBytes("ca");
+            var resp = Encoding.UTF8.GetBytes("fi");
             
             await context.Response.OutputStream.WriteAsync(resp);
             context.Response.Close();

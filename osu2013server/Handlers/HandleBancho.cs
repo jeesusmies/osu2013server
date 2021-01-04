@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Dynamic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using osu2013server.Attributes;
 using osu2013server.Enums;
@@ -62,32 +64,27 @@ namespace osu2013server.Handlers
                 return (username, password, info);
             });
 
-            var player = new Player();
+            var response = new MemoryStream();
+            await using var writer = new BinaryWriter(response, Encoding.UTF8, true);
+            
+            var (authenticationResult, query) = await Player.Authenticate(credentials);
 
-            switch (await Player.Authenticate(credentials))
+            switch (authenticationResult)
             {
                 case LoginStatus.AuthenticationSuccessful:
-                    return new Packets.Out.Login() {Status = 1}.ToByteArray();
-                    break;
+                    var player = new Player();
 
-                case LoginStatus.AuthenticationFailed:
-                    return new Packets.Out.Login() {Status = -1}.ToByteArray();
-                    break;
-                case LoginStatus.TestBuildButNotSupporter:
-                    break;
-                case LoginStatus.ServerSideError:
-                    break;
-                case LoginStatus.AccountNotActivated:
-                    break;
-                case LoginStatus.Banned:
-                    break;
-                case LoginStatus.TooOldVersion:
+                    writer.Write(new Packets.Out.Login() { Status = int.Parse(query["id"]) }.ToByteArray());
+                    
+                    
+
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    writer.Write(new Packets.Out.Login() {  Status = (int) authenticationResult }.ToByteArray());
+                    break;
             }
 
-            return new byte[] { };
+            return response.ToArray();
         }
     }
 }
