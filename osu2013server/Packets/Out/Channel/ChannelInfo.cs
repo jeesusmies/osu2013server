@@ -14,7 +14,7 @@ namespace osu2013server.Packets.Out.Channel
             
             writer.WriteBString(Channel.Name);
             writer.WriteBString(Channel.Topic);
-            writer.WriteBString(Channel.Topic);
+            writer.WriteBString(Channel.PlayerCount);
         }
     }
 }
