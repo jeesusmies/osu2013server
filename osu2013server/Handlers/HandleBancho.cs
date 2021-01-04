@@ -77,8 +77,23 @@ namespace osu2013server.Handlers
                     writer.Write(new Packets.Out.Login() { Status = int.Parse(query["id"]) }.ToByteArray());
 
                     break;
-                default:
-                    writer.Write(new Packets.Out.Login() {  Status = (int) authenticationResult }.ToByteArray());
+                case LoginStatus.TestBuildButNotSupporter:
+                    writer.Write(new Packets.Out.Login() { Status = (int) authenticationResult }.ToByteArray());
+                    break;
+                case LoginStatus.ServerSideError:
+                    writer.Write(new Packets.Out.Login() { Status = (int) authenticationResult }.ToByteArray());
+                    break;
+                case LoginStatus.AccountNotActivated:
+                    writer.Write(new Packets.Out.Login() { Status = (int) authenticationResult }.ToByteArray());
+                    break;
+                case LoginStatus.Banned:
+                    writer.Write(new Packets.Out.Login() { Status = (int) authenticationResult }.ToByteArray());
+                    break;
+                case LoginStatus.TooOldVersion:
+                    writer.Write(new Packets.Out.Login() { Status = (int) authenticationResult }.ToByteArray());
+                    break;
+                case LoginStatus.AuthenticationFailed:
+                    writer.Write(new Packets.Out.Login() { Status = (int) authenticationResult }.ToByteArray());
                     break;
             }
 
