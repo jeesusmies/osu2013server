@@ -1,4 +1,6 @@
-﻿namespace osu2013server.Objects
+﻿using osu2013server.Enums;
+
+namespace osu2013server.Objects
 {
     public class PlayerStats
     {
