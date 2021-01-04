@@ -13,6 +13,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <PackageReference Include="MySql.Data" Version="8.0.22" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
     </ItemGroup>
 

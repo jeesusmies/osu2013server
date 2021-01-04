@@ -75,8 +75,6 @@ namespace osu2013server.Handlers
                     var player = new Player();
 
                     writer.Write(new Packets.Out.Login() { Status = int.Parse(query["id"]) }.ToByteArray());
-                    
-                    
 
                     break;
                 default:

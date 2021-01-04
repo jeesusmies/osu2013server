@@ -1,7 +1,12 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using osu2013server.Enums;
-
+using osu2013server.MySql;
 using static osu2013server.Enums.LoginStatus;
 
 namespace osu2013server.Objects
@@ -14,9 +19,29 @@ namespace osu2013server.Objects
         {
             var (username, password, info) = credentials.Result;
 
-            var query = await Global.GetUserAsync(username);
+            var query = await Player.GetUserAsync(username);
             
             return (query["password"] == password ? AuthenticationSuccessful : AuthenticationFailed, query);
+        }
+        
+        // change sql lib to mysqlconnector
+        // to get async methods
+        public static async Task<NameValueCollection> GetUserAsync(string username) 
+        {
+            return Global.Database.Get(
+                "select * from (select *, ROW_NUMBER() OVER(order by rankedscore desc) AS 'rank' from osu_users) t WHERE username = @username;", 
+                new[] {
+                    new MySqlParameter("@username", username),
+                });
+        }
+        
+        public static async Task<(float, float)> GetGeoLoc(string ip) 
+        {
+            var json = await new HttpClient().GetAsync($"http://ip-api.com/json/{ip}");
+            
+            var items = JsonConvert.DeserializeObject<List<GeoLoc>>(await json.Content.ReadAsStringAsync());
+
+            return (items[0].lat, items[0].lon);
         }
     }
 }

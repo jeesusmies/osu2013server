@@ -36,6 +36,18 @@ namespace osu2013server
             Console.WriteLine($@"[{obj.GetType()}] {message}");
         }
         
+        public static void WriteBString(this BinaryWriter writer, string s)
+        {
+            if (s.Length == 0)
+            { 
+                writer.Write((byte)0x00);
+                return;
+            }
+
+            writer.Write((byte)11);
+            writer.Write(s);
+        }
+        
         public static T ToEnum<T>(this string value)
         {
             return (T) Enum.Parse(typeof(T), value, true);
