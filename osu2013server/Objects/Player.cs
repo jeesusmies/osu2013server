@@ -13,7 +13,7 @@ namespace osu2013server.Objects
 {
     public class Player
     {
-
+        public PlayerStats Stats { get; set; }
 
         public static async Task<(LoginStatus, NameValueCollection)> Authenticate(Task<(string username, string password, string info)> credentials)
         {
