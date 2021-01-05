@@ -27,10 +27,7 @@ namespace osu2013server.Handlers
 
             Context = context;
 
-            context.Response.ContentType = "text/html; charset=UTF-8";
-            context.Response.StatusCode = 200;
-            context.Response.SendChunked = true;
-            context.Response.KeepAlive = true;
+            Context.Response.SuccessfulResponse();
 
             if (context.Request.Headers["osu-token"] == null)
             {
@@ -42,15 +39,6 @@ namespace osu2013server.Handlers
                 context.Response.Close();
                 return;
             }
-            
-            using var reader = new BinaryReader(context.Request.InputStream);
-            
-            /*
-            var dsgf = reader.ReadInt16();
-            var dfg = reader.ReadByte();
-            var hdsgf = reader.ReadInt32();
-            var gfds = reader.ReadBytes(hdsgf);
-            */
         }
 
         private async Task<byte[]> Login()
@@ -68,11 +56,31 @@ namespace osu2013server.Handlers
             await using var writer = new BinaryWriter(response, Encoding.UTF8, true);
             
             var (authenticationResult, query) = await Player.Authenticate(credentials);
-
+            
+            var (lon, lat) = await Player.GetGeoLoc(Context.Request.RemoteEndPoint.ToString());
+            
             switch (authenticationResult)
             {
                 case LoginStatus.AuthenticationSuccessful:
-                    var player = new Player();
+                    var player = new Player()
+                    {
+                        ID = int.Parse(query["id"]),
+                        Stats = new PlayerStats()
+                        {
+                            Rank = int.Parse(query["rank"]),
+                            RankedScore = int.Parse(query["rankedscore"]),
+                            Accuracy = int.Parse(query["accuracy"]),
+                            Action = "",
+                            ActionMD5 = "",
+                            Gamemode = Gamemode.Standard,
+                            MapID = 0,
+                            Mods = Mods.None,
+                            PerformancePoints = short.Parse(query["performancepoints"]),
+                            PlayCount = int.Parse(query["playcount"]),
+                            Score = int.Parse(query["totalscore"]),
+                            Status = Status.Idle
+                        }
+                    };
 
                     writer.Write(new Packets.Out.Login() { Status = int.Parse(query["id"]) }.ToByteArray());
 

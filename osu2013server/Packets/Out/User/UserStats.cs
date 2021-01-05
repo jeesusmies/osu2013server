@@ -23,8 +23,7 @@ namespace osu2013server.Packets.Out
             writer.Write(Player.Stats.RankedScore);
             writer.Write(Player.Stats.Accuracy);
             writer.Write(Player.Stats.PlayCount);
-            writer.Write(Player.Stats.TotalScore);
-            writer.Write(Player.Stats.RankedScore);
+            writer.Write(Player.Stats.Score);
             writer.Write(Player.Stats.Rank);
             writer.Write(Player.Stats.PerformancePoints);
         }

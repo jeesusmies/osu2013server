@@ -6,8 +6,6 @@ namespace osu2013server.Objects
     {
         public long Score { get; set; }
         public long RankedScore { get; set; }
-        public long TotalScore { get; set; }
-        
         public short PerformancePoints { get; set; }
         public Status Status { get; set; }
         public int PlayCount { get; set; }
