@@ -1,4 +1,4 @@
-﻿namespace osu2013server.Packets.Out.Channel
+﻿namespace osu2013server.Packets.Out
 {
     public class ChannelInfoEnd : PacketOut
     {

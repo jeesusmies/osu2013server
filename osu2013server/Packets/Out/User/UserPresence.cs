@@ -12,9 +12,9 @@ namespace osu2013server.Packets.Out
         // Not sure cuz its not being used anywhere else...
         public int ID { get; init; }
         public string Username { get; init; }
-        public string UtcOffset { get; init; }
+        public byte UtcOffset { get; init; }
         public byte Country { get; init; }
-        public Priviliges Privilege { get; init; }
+        public Privileges Privilege { get; init; }
         public float Longitude { get; init; }
         public float Latitude { get; init; }
 

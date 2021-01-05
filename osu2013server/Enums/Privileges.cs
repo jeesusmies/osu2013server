@@ -1,6 +1,6 @@
 ﻿namespace osu2013server.Enums
 {
-    public enum Priviliges
+    public enum Privileges
     {
         None      = 0,
         Normal    = 1,

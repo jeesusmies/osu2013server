@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.CompilerServices;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using osu2013server.Enums;
@@ -14,7 +15,8 @@ namespace osu2013server.Objects
     public class Player
     {
         public PlayerStats Stats { get; set; }
-        public int ID { get; set; }
+        public int ID { get; init; }
+        public string Username { get; init; }
 
         public static async Task<(LoginStatus, NameValueCollection)> Authenticate(Task<(string username, string password, string info)> credentials)
         {
@@ -25,7 +27,8 @@ namespace osu2013server.Objects
             return (query["password"] == password ? AuthenticationSuccessful : AuthenticationFailed, query);
         }
         
-        // change sql lib to mysqlconnector
+        // should these 2 static methods be in Player class?
+        // also change sql lib to mysqlconnector
         // to get async methods
         public static async Task<NameValueCollection> GetUserAsync(string username) 
         {
